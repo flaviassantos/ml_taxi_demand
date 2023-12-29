@@ -49,10 +49,11 @@ def fetch_ride_events_from_data_warehouse(
     to_date: datetime
 ) -> pd.DataFrame:
     """
-    # TODO: implement my own function here
     This function is used to simulate production data by sampling historical data
     from 52 weeks ago (i.e. 1 year)
     """
+    # TODO: implement my own function here
+    
     from_date_ = from_date - timedelta(days=7*52)
     to_date_ = to_date - timedelta(days=7*52)
     print(f'Fetching ride events from {from_date} to {to_date}')
@@ -97,6 +98,7 @@ def load_raw_data(
             - pickup_datetime: datetime of the pickup
             - pickup_location_id: ID of the pickup location
     """  
+    # TODO: implement my own function here
     rides = pd.DataFrame()
     
     if months is None:
@@ -158,6 +160,7 @@ def add_missing_slots(ts_data: pd.DataFrame) -> pd.DataFrame:
                                ts_data['pickup_hour'].max(),
                                freq='H')
     output = pd.DataFrame()
+    
     for location_id in tqdm(location_ids):
 
         # keep only rides for this 'location_id'

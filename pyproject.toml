@@ -12,6 +12,7 @@ pandas = "^2.1.4"
 pyarrow = "^14.0.2"
 tqdm = "^4.66.1"
 plotly = "^5.18.0"
+python-dotenv = "^1.0.0"
 
 
 [build-system]
