@@ -1,18 +1,19 @@
 [tool.poetry]
 name = "src"
 version = "0.1.0"
-description = ""
+description = "Building a complete ML service, from A to Z."
 authors = ["flaviassantos <ssantosflavia@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<3.10"
+hopsworks = "^3.4.2"
 jupyter = "^1.0.0"
-pandas = "^2.1.4"
+pandas = "^1.5.2"
+python-dotenv = "^1.0.0"
 pyarrow = "^14.0.2"
 tqdm = "^4.66.1"
 plotly = "^5.18.0"
-python-dotenv = "^1.0.0"
 
 
 [build-system]
