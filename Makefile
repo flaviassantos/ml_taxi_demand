@@ -1,4 +1,4 @@
-.PHONE: init backfill features
+.PHONE: init backfill features training
 
 # downloads Poetry and installs all dependencies from pyproject.toml
 init:
@@ -12,3 +12,7 @@ features:
 # backfills the feature store with historical data
 backfill:
 	poetry run python scripts/backfill_feature_group.py
+
+# trains a new model and stores it in the model registry
+training:
+	poetry run python scripts/training_pipeline.py

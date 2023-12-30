@@ -14,7 +14,7 @@ try:
 except:
     raise Exception('Create an .env file on the project root with the HOPSWORKS_API_KEY and HOPSWORKS_PROJECT_NAME')
 
-
+# TODO: get version dinamically
 FEATURE_GROUP_METADATA = FeatureGroupConfig(
     name='time_series_hourly_feature_group',
     version=1,
@@ -23,3 +23,20 @@ FEATURE_GROUP_METADATA = FeatureGroupConfig(
     event_time='pickup_ts',
     online_enabled=True,
 )
+
+FEATURE_VIEW_METADATA = FeatureViewConfig(
+    name='time_series_hourly_feature_view',
+    version=1,
+    feature_group=FEATURE_GROUP_METADATA,
+)
+
+# number of iterations we want Optuna to pefrom to find the best hyperparameters
+N_HYPERPARAMETER_SEARCH_TRIALS = 1
+
+# number of historical values our model needs to generate predictions
+N_FEATURES = 24 * 28
+
+# maximum Mean Absolute Error we allow our production model to have
+MAX_MAE = 9.0
+
+MODEL_NAME = "taxi_demand_predictor"
