@@ -36,21 +36,24 @@ Building a complete ML service, from A to Z.
     $ poetry shell
     ```
 
-3. Open free accounts at Hopsworks and CometML and copy your project names and API keys in an .env file
+4. Open free accounts at Hopsworks and CometML and copy your project names and API keys in an .env file
     ```bash
     $ cp .env.sample .env
     # paste your values there
     ```
 
-4. Backfill the feature group with historical data
+5. Backfill the feature group with historical data
     ```bash
     $ make backfill
     ```
 
-5. Run the feature pipeline for the last hour
+6. Run the feature pipeline for the last hour
     ```bash
     $ make features
     ```
 
-
+7. Run the training pipeline
+    ```bash
+    $ make training
+    ```
 
