@@ -2,6 +2,12 @@
 
 Building a complete ML service, from A to Z.
 
+## Serverless MLOps tools 🛠
+- Hopsworks as our Feature Store
+- CometML for model registry and management
+- GitHub Actions to schedule and run jobs
+  
+
 ## Wanna see it in action?
 
 - [Live Dashboard with model predictions](https://xxxxxx.streamlit.app/)
