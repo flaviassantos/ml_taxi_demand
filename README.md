@@ -25,11 +25,13 @@ Building a complete ML service, from A to Z.
     ```bash
     $ brew update
     $ brew install libomp librdkafka
+    ```
 
 2. cd into the project folder and run
-        ```bash
-        $ poetry install
-        ```
+        
+    ```bash
+    $ poetry install
+    ```
 
 3. Activate the virtual env that you just created with
     ```bash
