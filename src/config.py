@@ -41,3 +41,7 @@ N_FEATURES = 24 * 28
 MAX_MAE = 9.0
 
 MODEL_NAME = "taxi_demand_predictor"
+
+STEP_SIZE = 23
+
+CUTOFF_DATE = 120

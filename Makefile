@@ -1,5 +1,7 @@
 .PHONE: init backfill features training
 
+include .env
+
 # downloads Poetry and installs all dependencies from pyproject.toml
 init:
 	curl -sSL https://install.python-poetry.org | python3 -
@@ -15,4 +17,4 @@ backfill:
 
 # trains a new model and stores it in the model registry
 training:
-	poetry run python scripts/training_pipeline.py
+	env $(cat .env | grep -v '^#' | sed '/^$$/d' | awk -F= '{print $$1}') poetry run python scripts/training_pipeline.py --local_path_features_and_target=${LOCAL_PATH_FEATURES}

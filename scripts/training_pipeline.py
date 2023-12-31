@@ -53,8 +53,8 @@ def fetch_features_and_targets_from_store(
     
     # sort by pickup_location_id and pickup_hour in ascending order
     ts_data.sort_values(by=['pickup_location_id', 'pickup_hour'], inplace=True)
-
-    # drop `pickup_ts` column
+    
+    # TODO: remove pickup_ts from processing the data
     ts_data.drop('pickup_ts', axis=1, inplace=True)
 
     # transform time-series data from the feature store into features and targets
@@ -147,12 +147,24 @@ def load_features_and_target(
     
     if local_path_features_and_target:
         logger.info('Loading features_and_target from local file')
-        features_and_target = pd.read_parquet(local_path_features_and_target)
+        ts_data = pd.read_parquet(local_path_features_and_target)
+        
+        # transform time-series data from the feature store into features and targets
+        # for supervised learning
+        ts_data.drop('pickup_ts', axis=1, inplace=True)
+        features, targets = transform_ts_data_into_features_and_target(
+            ts_data,
+            input_seq_len=config.N_FEATURES, # one month
+            step_size=config.STEP_SIZE,
+        )
+        
+        features_and_target = features.copy()
+        features_and_target['target_rides_next_hour'] = targets
     else:
         logger.info('Fetching features and targets from the feature store')
         from_date = pd.to_datetime(date.today() - timedelta(days=52*7))
         to_date = pd.to_datetime(date.today())
-        features_and_target = fetch_features_and_targets_from_store(from_date,to_date, step_size=23)
+        features_and_target = fetch_features_and_targets_from_store(from_date,to_date, step_size=config.STEP_SIZE)
 
         # save features_and_target to local file
         try:
@@ -174,6 +186,7 @@ def train(
     performance threshold.
     """
     logger.info('Start model training...')
+    logger.info(f'Local path {local_path_features_and_target}...')
 
     # start Comet ML experiment run
     logger.info('Creating Comet ML experiment')
@@ -188,7 +201,7 @@ def train(
     experiment.log_dataset_hash(features_and_target)
 
     # split the data into training and validation sets
-    cutoff_date = pd.to_datetime(date.today() - timedelta(days=28), utc=True)
+    cutoff_date = pd.to_datetime(date.today() - timedelta(days=config.CUTOFF_DATE), utc=True)
     logger.info(f'Splitting data into training and test sets with {cutoff_date=}')
     X_train, y_train, X_test, y_test = split_data(
         features_and_target,
