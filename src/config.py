@@ -11,6 +11,7 @@ load_dotenv(PARENT_DIR / '.env')
 try:
     HOPSWORKS_PROJECT_NAME = os.environ['HOPSWORKS_PROJECT_NAME']
     HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
+    SAVE_FEATURE_GROUP = os.environ['SAVE_FEATURE_GROUP']
 except:
     raise Exception('Create an .env file on the project root with the HOPSWORKS_API_KEY and HOPSWORKS_PROJECT_NAME')
 
