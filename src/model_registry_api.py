@@ -50,7 +50,8 @@ def push_model_to_registry(
     
     # Resume the expriment using its API key and experiment ID.
     experiment = comet_ml.ExistingExperiment(
-        api_key=stale_experiment.api_key, experiment_key=stale_experiment.id
+        api_key=stale_experiment.api_key, 
+        experiment_key=stale_experiment.id
     )
 
     # log model as an experiment artifact

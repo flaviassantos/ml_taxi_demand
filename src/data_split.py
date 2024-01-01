@@ -3,6 +3,7 @@ from typing import Tuple
 
 import pandas as pd
 
+#TODO: remove this funtion to the data.py module
 def train_test_split(
     df: pd.DataFrame,
     cutoff_date: datetime,

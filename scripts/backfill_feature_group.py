@@ -6,7 +6,7 @@ import pandas as pd
 
 from src.data import load_raw_data, transform_raw_data_into_ts_data
 from src.config import FEATURE_GROUP_METADATA 
-from src.feature_store_api import get_or_create_feature_group
+from src.feature_store_api import feature_group_insert, get_or_create_feature_group
 from src.logger import get_logger
 
 logger = get_logger()
@@ -45,13 +45,9 @@ def run():
     # add new column with the timestamp in Unix seconds
     ts_data['pickup_hour'] = pd.to_datetime(ts_data['pickup_hour'], utc=True)    
     ts_data['pickup_ts'] = ts_data['pickup_hour'].astype(int) // 10**6 # Unix milliseconds
-
-    # get a pointer to the feature group we wanna write to
-    feature_group = get_or_create_feature_group(FEATURE_GROUP_METADATA)
-
-    # start a job to insert the data into the feature group
-    logger.info('Inserting data into feature group...')
-    feature_group.insert(ts_data, write_options={"wait_for_job": False})
+    
+    # TODO: fix proper backfill on database
+    feature_group_insert(ts_data, 'backfill_feature_group.parquet')
 
 if __name__ == '__main__':
     run()
