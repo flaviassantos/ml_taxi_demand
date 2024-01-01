@@ -47,7 +47,7 @@ def run():
     ts_data['pickup_ts'] = ts_data['pickup_hour'].astype(int) // 10**6 # Unix milliseconds
     
     # TODO: fix proper backfill on database
-    feature_group_insert(ts_data)
+    feature_group_insert(ts_data, 'backfill_feature_group.parquet')
 
 if __name__ == '__main__':
     run()

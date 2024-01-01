@@ -19,7 +19,7 @@ class FeatureGroupConfig:
     description: str
     primary_key: List[str]
     event_time: str
-    online_enabled: Optional[bool] = False
+    online_enabled: Optional[bool] = True
 
 @dataclass
 class FeatureViewConfig:
@@ -41,24 +41,24 @@ def get_feature_store() -> hsfs.feature_store.FeatureStore:
     return project.get_feature_store()
 
 # TODO: remove this function, and use get_or_create_feature_group instead
-# def get_feature_group(
-#     name: str,
-#     version: Optional[int] = 1
-#     ) -> hsfs.feature_group.FeatureGroup:
-#     """Connects to the feature store and returns a pointer to the given
-#     feature group `name`
+def get_feature_group(
+    name: str,
+    version: Optional[int] = 1
+    ) -> hsfs.feature_group.FeatureGroup:
+    """Connects to the feature store and returns a pointer to the given
+    feature group `name`
 
-#     Args:
-#         name (str): name of the feature group
-#         version (Optional[int], optional): _description_. Defaults to 1.
+    Args:
+        name (str): name of the feature group
+        version (Optional[int], optional): _description_. Defaults to 1.
 
-#     Returns:
-#         hsfs.feature_group.FeatureGroup: pointer to the feature group
-#     """
-#     return get_feature_store().get_feature_group(
-#         name=name,
-#         version=version,
-#     )
+    Returns:
+        hsfs.feature_group.FeatureGroup: pointer to the feature group
+    """
+    return get_feature_store().get_feature_group(
+        name=name,
+        version=version,
+    )
 
 def get_or_create_feature_group(
     feature_group_metadata: FeatureGroupConfig
@@ -73,7 +73,8 @@ def get_or_create_feature_group(
     Returns:
         hsfs.feature_group.FeatureGroup: pointer to the feature group
     """
-    return get_feature_store().get_or_create_feature_group(
+    project = get_feature_store()
+    feature_group = project.get_or_create_feature_group(
         name=feature_group_metadata.name,
         version=feature_group_metadata.version,
         description=feature_group_metadata.description,
@@ -82,6 +83,7 @@ def get_or_create_feature_group(
         online_enabled=feature_group_metadata.online_enabled
         
     )
+    return feature_group
 
 def get_or_create_feature_view(
     feature_view_metadata: FeatureViewConfig
@@ -113,10 +115,10 @@ def get_or_create_feature_view(
     return feature_view
 
 
-def feature_group_insert(ts_data: pd.DataFrame):
+def feature_group_insert(ts_data: pd.DataFrame, file_name: str = 'feature_group.parquet'):
     """"""
     if config.SAVE_FEATURE_GROUP == 'local':
-        local_file = DATA_CACHE_DIR / 'feature_group.parquet'
+        local_file = DATA_CACHE_DIR / file_name
         ts_data.to_parquet(local_file)
         logger.info(f'Saved feature group to local file at {local_file}')
     elif config.SAVE_FEATURE_GROUP == 'feature_store':

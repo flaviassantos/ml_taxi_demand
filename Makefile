@@ -17,4 +17,8 @@ backfill:
 
 # trains a new model and stores it in the model registry
 training:
-	env $(cat .env | grep -v '^#' | sed '/^$$/d' | awk -F= '{print $$1}') poetry run python scripts/training_pipeline.py --local_path_features_and_target=${LOCAL_PATH_FEATURES}
+	env $(cat .env | grep -v '^#' | sed '/^$$/d' | awk -F= '{print $$1}') poetry run python scripts/training_pipeline.py --local_path_features_and_target=${LOCAL_PATH_BACKFILLED_FEATURES}
+
+# generates predictions and stores them in the feature store
+inference:
+	poetry run python scripts/inference_pipeline.py

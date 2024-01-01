@@ -22,13 +22,21 @@ FEATURE_GROUP_METADATA = FeatureGroupConfig(
     description='Feature group with hourly time-series data of historical taxi rides',
     primary_key=['pickup_location_id', 'pickup_ts'],
     event_time='pickup_ts',
-    online_enabled=True,
+    online_enabled=False,
 )
 
 FEATURE_VIEW_METADATA = FeatureViewConfig(
     name='time_series_hourly_feature_view',
     version=1,
     feature_group=FEATURE_GROUP_METADATA,
+)
+
+FEATURE_GROUP_PREDICTIONS_METADATA = FeatureGroupConfig(
+    name='model_predictions_feature_group',
+    version=1,
+    description="Predictions generate by our production model",
+    primary_key = ['pickup_location_id', 'pickup_ts'],
+    event_time='pickup_ts',
 )
 
 # number of iterations we want Optuna to pefrom to find the best hyperparameters
@@ -40,8 +48,10 @@ N_FEATURES = 24 * 28
 # maximum Mean Absolute Error we allow our production model to have
 MAX_MAE = 9.0
 
-MODEL_NAME = "taxi_demand_predictor"
+MODEL_NAME = "lightgbm_taxi_demand_predictor"
 
 STEP_SIZE = 23
 
 CUTOFF_DATE = 120
+
+PREVIOUS_YEAR = 7*52
