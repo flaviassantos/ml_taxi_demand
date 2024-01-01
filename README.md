@@ -55,13 +55,17 @@ Building a complete ML service, from A to Z.
     $ make backfill
     ```
 
-6. Run the feature pipeline for the last hour
-    ```bash
-    $ make features
-    ```
-
-7. Run the training pipeline
+6. Run the training pipeline
     ```bash
     $ make training
     ```
 
+7. Run the feature pipeline for the last hour
+    ```bash
+    $ make features
+    ```
+
+9. Run the inference pipeline for the last hour
+    ```bash
+    $ make inference
+    ```
